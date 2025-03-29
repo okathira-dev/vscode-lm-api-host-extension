@@ -34,7 +34,7 @@
 実装作業を以下の主要フェーズに分けて進めます。テスト駆動開発(TDD)アプローチを採用し、各機能の実装時にテストを作成・実行します：
 
 1. VSCode Extension Generatorを使った初期環境構築
-2. esbuildの導入と基本設定
+2. esbuildの設定最適化
 3. コアコンポーネント実装
 4. Fastifyを使用したAPIサーバー実装
 5. 高度な機能実装
@@ -67,7 +67,7 @@
 2. **拡張機能プロジェクトの生成**
    - テンプレートとしてTypeScript版を選択
    - プロジェクト名などの基本情報を設定
-   - バンドラーは「unbundled」を選択（後でesbuildを導入するため）
+   - バンドラーは「esbuild」を選択
 
 3. **生成されたプロジェクトの確認とテスト環境の導入**
    - プロジェクト構造の確認
@@ -83,54 +83,50 @@
 
 テスト駆動開発(TDD)アプローチを採用するため、以下の手順でテスト環境を構築します：
 
-1. **Jestテストフレームワークの設定**
-   - Jestとその依存関係のインストール
-   - Jest設定ファイルの作成
+1. **Mochaテストフレームワークの拡張**
+   - 既存のMochaテスト環境を拡張
+   - VSCode拡張テスト用の設定確認と最適化
 
 2. **VSCode用のテストモックの準備**
-   - VSCode API用のモックライブラリのインストール
+   - VSCode API用のモックライブラリの確認
    - テストユーティリティの準備
 
-3. **基本的なテストの作成**
-   - 拡張機能のアクティベーションテスト
-   - コマンド登録のテスト
-
 **成果物**:
-- Jestテスト環境
+- 最適化されたMochaテスト環境
 - VSCode APIのモック設定
-- 基本的なテストケース
+- 再配置されたテストファイル
 
-## 2. esbuildの導入と基本設定
+## 2. esbuildの設定最適化
 
-このフェーズでは、生成されたプロジェクトにesbuildを導入し、ビルド設定を最適化します。
+このフェーズでは、テンプレート生成時に選択したesbuildの設定を最適化します。
 
-### ビルドシステムの技術選定
+### ビルドシステムに関する現状
 
-- **決定**: esbuildをビルドシステムとして採用
+- **選択済み**: esbuildをビルドシステムとして採用済み
   - **理由**: 高速なビルド時間、シンプルな設定、TypeScriptのネイティブサポート
   - **代替案**: Vite（Node.js CJSサポートの問題により却下）
 
-### 2.1 esbuildのセットアップ
+### 2.1 esbuild設定の最適化
 
 #### タスク詳細
 
-1. **esbuildのインストールと設定ファイルの作成**
-   - esbuildパッケージのインストール
-   - ビルド設定ファイルの作成
+1. **既存のesbuild設定の確認と調整**
+   - 既存の設定ファイルの確認
+   - 必要に応じた設定の最適化
 
-2. **esbuild構成ファイルの作成**
-   - `esbuild.js`設定ファイルの作成
+2. **esbuild構成ファイルの拡張**
    - 外部依存関係の設定（vscode）
    - ソースマップの設定
+   - ビルド最適化オプションの追加
 
-3. **package.jsonスクリプトの更新とビルドテスト**
-   - ビルドスクリプトの追加
-   - watch modeの設定
+3. **package.jsonスクリプトの確認と更新**
+   - ビルドスクリプトの確認
+   - watch modeの調整
    - VSIXパッケージング設定
    - ビルド処理のテスト
 
 **成果物**:
-- esbuildによるビルド設定
+- 最適化されたesbuildビルド設定
 - 更新されたnpmスクリプト
 - VSIXパッケージング設定
 - ビルドテスト
@@ -146,37 +142,41 @@
    vscode-lm-api-host/
    ├── src/
    │   ├── extension.ts               # エントリーポイント
+   │   ├── extension.test.ts          # エントリーポイントのテスト
    │   ├── lm-service/                # LLMサービス実装
    │   │   ├── index.ts               # サービスエクスポート
+   │   │   ├── index.test.ts          # サービスエクスポートのテスト
    │   │   ├── lm-api-client.ts       # LM API クライアント
+   │   │   ├── lm-api-client.test.ts  # LM API クライアントのテスト
    │   │   ├── models.ts              # モデル管理
-   │   │   └── __tests__/             # LMサービステスト
+   │   │   └── models.test.ts         # モデル管理のテスト
    │   ├── server/                    # APIサーバー関連
    │   │   ├── index.ts               # サーバーエクスポート
+   │   │   ├── index.test.ts          # サーバーエクスポートのテスト
    │   │   ├── server.ts              # Fastifyサーバー実装
-   │   │   ├── routes/                # APIルート定義
-   │   │   └── __tests__/             # サーバーテスト
+   │   │   ├── server.test.ts         # Fastifyサーバー実装のテスト
+   │   │   └── routes/                # APIルート定義
+   │   │       ├── chat.ts            # チャットルート
+   │   │       ├── chat.test.ts       # チャットルートのテスト
+   │   │       ├── models.ts          # モデルルート
+   │   │       └── models.test.ts     # モデルルートのテスト
    │   ├── webview/                   # WebView UI関連
    │   │   ├── index.ts               # WebViewエクスポート
-   │   │   ├── panels/                # パネル定義
-   │   │   └── __tests__/             # WebViewテスト
+   │   │   ├── index.test.ts          # WebViewエクスポートのテスト
+   │   │   └── panels/                # パネル定義
+   │   │       ├── settings.ts        # 設定パネル
+   │   │       └── settings.test.ts   # 設定パネルのテスト
    │   └── utils/                     # 共通ユーティリティ
    │       ├── index.ts               # ユーティリティエクスポート
+   │       ├── index.test.ts          # ユーティリティエクスポートのテスト
    │       ├── logger.ts              # ロギング機能
+   │       ├── logger.test.ts         # ロギング機能のテスト
    │       ├── config.ts              # 設定管理
-   │       └── __tests__/             # ユーティリティテスト
+   │       └── config.test.ts         # 設定管理のテスト
    ├── dist/                          # ビルド出力ディレクトリ
-   ├── test/                          # 統合テスト
-   │   ├── suite/                     # テストスイート
-   │   └── runTest.ts                 # テスト実行エントリーポイント
-   ├── webview-ui/                    # WebView UI
-   │   ├── src/                       # UI ソースコード
-   │   └── dist/                      # UI ビルド出力
    ├── .vscode/                       # VSCode設定
-   ├── .eslintrc.json                 # ESLint設定
-   ├── .prettierrc                    # Prettier設定
+   ├── eslint.config.mjs              # ESLint設定
    ├── tsconfig.json                  # TypeScript設定
-   ├── jest.config.js                 # Jest設定
    ├── esbuild.js                     # esbuild設定
    ├── package.json                   # プロジェクト設定
    └── README.md                      # プロジェクト説明
@@ -258,10 +258,11 @@
 
 ### 3.3 テスト構造の方針
 
-- 各モジュールには対応する `__tests__` ディレクトリを作成
+- テストファイルはテスト対象のソースファイルと同じディレクトリに配置（コロケーション）
+- ファイル名は `[対象ファイル名].test.ts` の形式
 - ユニットテストは実装と並行して作成（TDDアプローチ）
-- テストファイル名は `[テスト対象ファイル名].test.ts` の形式
 - モック、スタブ、スパイを適切に使用してテスト分離
+- テストユーティリティは必要に応じて `src/utils/test-helpers.ts` などに配置
 
 ## 4. Fastifyを使用したAPIサーバー実装
 
