@@ -1,0 +1,21 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Cursorルール
+
+## 言語とコマンド
+
+- bashコマンドではなく、Windows環境のPowerShell v7コマンドを使用する
+  - ただし、WSL環境内でのコマンドはbashコマンドを使用する
+- PowerShellコマンドの例：
+  - `Get-ChildItem` (`ls`の代わり)
+  - `New-Item` (`touch`/`mkdir`の代わり)
+  - `Get-Content` (`cat`の代わり)
+  - `Set-Location` (`cd`の代わり)
+
+## プロジェクトルール
+
+- コードの編集時には必ず対応するドキュメントファイル（`docs/`ディレクトリ内）を更新すること
+- 詳細は [document.mdc](mdc:.cursor/rules/document.mdc) を参照すること
