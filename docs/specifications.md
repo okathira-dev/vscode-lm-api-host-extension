@@ -230,7 +230,7 @@ POST /v1/chat/completions
 ## 互換性要件
 
 ### VSCode バージョン
-- 最新の安定版 Visual Studio Code をサポート
+- Visual Studio Code 1.93.1以上をサポート
 
 ### OS サポート
 - Windows

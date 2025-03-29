@@ -6,7 +6,7 @@ VSCode LM API Host 拡張機能は、VSCodeのLanguage Model APIへの外部ア�
 
 ## インストール要件
 
-- Visual Studio Code 最新の安定版
+- Visual Studio Code 1.93.1以上
 - Node.js v22.12.0 以上
 - npm v10.9.0 以上
 - 有効なGitHub Copilotサブスクリプション
