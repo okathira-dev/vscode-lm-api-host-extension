@@ -1,71 +1,91 @@
-# vscode-lm-api-host README
+# VSCode LM API Host
 
-This is the README for your extension "vscode-lm-api-host". After writing up a brief description, we recommend including the following sections.
+**このプロジェクトは開発中です。このファイルの内容は事実とは限りません。**
 
-## Features
+VSCode LM API Hostは、Visual Studio Codeの言語モデル（Language Model）APIを外部アプリケーションから利用可能にする拡張機能です。HTTP APIサーバーを提供し、VSCodeのLanguage Model機能に外部からアクセスできるようにします。
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+## 機能
 
-For example if there is an image subfolder under your extension project workspace:
+- **OpenAI互換API**：OpenAI APIと互換性のあるエンドポイントを提供
+- **複数モデルサポート**：VSCodeで利用可能な言語モデルへのアクセス
+- **ステータス管理**：稼働状況をステータスバーで確認可能
+- **設定カスタマイズ**：ポート、ホスト、セキュリティ設定などをカスタマイズ可能
 
-\!\[feature X\]\(images/feature-x.png\)
+## インストール
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+- VSCode Marketplaceからインストール（公開後）
+- または `.vsix` ファイルからローカルインストール
 
-## Requirements
+## 要件
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+- Visual Studio Code 1.93.1以上
+- Node.js v22.12.0以上（推奨）
+- インターネット接続（言語モデルへのアクセスに必要）
 
-## Extension Settings
+## 使い方
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+1. コマンドパレット（Ctrl+Shift+P / Cmd+Shift+P）を開く
+2. `LM API Host: Start Server` を実行
+3. 外部アプリケーションから `http://localhost:3000` （デフォルト）にアクセス
 
-For example:
+## API エンドポイント
 
-This extension contributes the following settings:
+- **GET /v1/models** - 利用可能な言語モデルの一覧取得
+- **POST /v1/chat/completions** - チャット補完リクエスト
 
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
+## 拡張機能の設定
 
-## Known Issues
+この拡張機能は以下の設定項目を提供します：
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+- `lmApiHost.server.port`: APIサーバーのポート番号（デフォルト: 3000）
+- `lmApiHost.server.host`: ホスト設定（デフォルト: localhost）
+- `lmApiHost.server.cors`: CORS設定の有効/無効
+- `lmApiHost.security.enabled`: セキュリティ制限の有効/無効
 
-## Release Notes
+## 開発情報
 
-Users appreciate release notes as you update your extension.
+- 言語：TypeScript
+- ビルドツール：esbuild
+- APIサーバー：Fastify
+- テスト：Mocha
 
-### 1.0.0
+## リリースノート
 
-Initial release of ...
+### 0.0.1（開発中）
 
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
+- 初期開発版
+- 基本的なプロジェクト構造の構築
+- テスト環境のセットアップ
 
 ---
 
-## Following extension guidelines
+## 開発者向け情報
 
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
+### プロジェクトのセットアップ
 
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
+```bash
+# 依存関係のインストール
+npm install
 
-## Working with Markdown
+# 開発モードでの実行
+npm run watch
+```
 
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
+### コマンド
 
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
+- `npm run compile` - 拡張機能のビルド
+- `npm run watch` - 変更を監視して自動ビルド
+- `npm run test` - テストの実行
+- `npm run vsce:package` - VSIXパッケージの作成
 
-## For more information
+### 貢献方法
 
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
+イシューやプルリクエストを歓迎します。開発に参加する際は以下の点に注意してください：
 
-**Enjoy!**
+1. コードの変更には対応するテストを含める
+2. コミットメッセージは明確に
+3. プルリクエスト前にテストが通ることを確認
+
+## ライセンス
+
+未定
